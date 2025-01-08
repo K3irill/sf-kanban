@@ -9,7 +9,7 @@ import Logo from '../Logo/Logo'
 const Header = () => {
 	return (
 		<div className={styles.header}>
-			<div className={cn(styles.header, '__container')}>
+			<div className={cn(styles.header__container, '__container')}>
 				<Logo>K3 Kanban Board</Logo>
 				<UserElement />
 			</div>
