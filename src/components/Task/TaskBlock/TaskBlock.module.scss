@@ -1,0 +1,21 @@
+@use '../../../styles/variables.scss' as *;
+
+.task-block {
+	width: 282px;
+	background-color: $primary-grey;
+	border-radius: 10px;
+	padding: 12px;
+	&__header {
+		h3 {
+			&::first-letter {
+				text-transform: uppercase;
+			}
+		}
+	}
+	&__tasks {
+		padding: 15px 0;
+		display: flex;
+		gap: 15px;
+		flex-direction: column;
+	}
+}
