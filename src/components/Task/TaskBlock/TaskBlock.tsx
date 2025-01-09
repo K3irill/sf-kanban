@@ -177,7 +177,11 @@ const TaskBlock = ({
 						{!isCreating ? '+ Add card' : 'Submit'}
 					</button>
 				) : (
-					<button className={buttonClasses} onClick={toggleAdding}>
+					<button
+						disabled={replaceBlock?.length < 1}
+						className={buttonClasses}
+						onClick={toggleAdding}
+					>
 						{!isReplacing ? '+ Add card' : 'Cancel'}
 					</button>
 				)}
