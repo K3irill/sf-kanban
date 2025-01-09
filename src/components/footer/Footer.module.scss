@@ -1,0 +1,13 @@
+@use '../../styles/variables.scss' as *;
+
+.footer {
+	background: $dark-blue;
+	padding: 7px 16px;
+	&__container {
+		position: relative;
+		display: flex;
+		color: white;
+		align-items: center;
+		gap: 36px;
+	}
+}

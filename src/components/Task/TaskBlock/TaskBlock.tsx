@@ -4,6 +4,7 @@ import cn from 'classnames'
 import { dataIssuesType } from '../../../types/data'
 import TaskItem from '../TaskItem/TaskItem'
 import { useDataTasks } from '../../../context/data-tasks-context'
+import saveTaskToLocalStorage from '../../../utils/localStorage'
 
 type TaskBlockProps = {
 	blockName: string
@@ -18,7 +19,8 @@ const TaskBlock = ({
 	const [isReplacing, setReplacing] = useState<boolean>(false)
 	const { dataTasks, setDataTasks } = useDataTasks()
 	const [taskInputValue, setTaskInputValue] = useState('')
-	const formRef = useRef(null)
+	const [selectedTaskId, setSelectedTaskId] = useState<string | null>(null)
+	const formRef = useRef<HTMLFormElement | null>(null)
 
 	const toggleAdding = () => {
 		if (blockName === 'backlog') {
@@ -34,66 +36,66 @@ const TaskBlock = ({
 		taskDescription?: string | null
 	) => {
 		e.preventDefault()
-		if (taskName) {
-			if (!taskName.trim()) return
+		if (taskName && taskName.trim()) {
+			const newTask = {
+				id: String(Date.now()),
+				name: taskName,
+				description: taskDescription || '',
+			}
 
-			setDataTasks(prev =>
-				prev.map(block =>
+			setDataTasks(prev => {
+				const updatedDataTasks = prev.map(block =>
 					block.title === 'backlog'
 						? {
 								...block,
-								issues: [
-									...block.issues,
-									{
-										id: String(Date.now()),
-										name: taskName,
-										description: taskDescription || '',
-									},
-								],
+								issues: [...block.issues, newTask],
 						  }
 						: block
 				)
-			)
+				saveTaskToLocalStorage(updatedDataTasks)
+				return updatedDataTasks
+			})
 			setTaskInputValue('')
 			setCreating(false)
 		}
 	}
 
 	const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-		const selectedId = e.target.value
-		const selectedTask = dataTasks
-			.flatMap(block => block.issues)
-			.find(task => task.id === selectedId)
+		setSelectedTaskId(e.target.value)
+	}
 
-		if (selectedTask) {
-			const sourceBlock = dataTasks.find(block =>
-				block.issues.some(task => task.id === selectedId)
-			)
+	const handleReplaceTask = () => {
+		if (!selectedTaskId) return
 
-			setDataTasks(prev =>
-				prev.map(block => {
-					if (block.title === blockName) {
-						return {
-							...block,
-							issues: [
-								...block.issues,
-								{
-									...selectedTask,
-								},
-							],
-						}
+		setDataTasks(prev => {
+			const updatedDataTasks = prev.map(block => {
+				if (block.issues.some(task => task.id === selectedTaskId)) {
+					return {
+						...block,
+						issues: block.issues.filter(task => task.id !== selectedTaskId),
 					}
-					if (sourceBlock && block.title === sourceBlock.title) {
-						return {
-							...block,
-							issues: block.issues.filter(task => task.id !== selectedId),
-						}
+				}
+
+				if (block.title === blockName) {
+					const taskToMove = prev
+						.flatMap(b => b.issues)
+						.find(task => task.id === selectedTaskId)
+
+					return {
+						...block,
+						issues: taskToMove ? [...block.issues, taskToMove] : block.issues,
 					}
-					return block
-				})
-			)
-		}
+				}
+				return block
+			})
+
+			saveTaskToLocalStorage(updatedDataTasks)
+
+			return updatedDataTasks
+		})
+
 		setReplacing(false)
+		setSelectedTaskId(null)
 	}
 
 	const replaceBlock = dataTasks.find(block => block.title === blockName)
@@ -133,20 +135,32 @@ const TaskBlock = ({
 					</form>
 				)}
 				{isReplacing && replaceBlock && (
-					<select
-						onChange={handleSelectChange}
-						className={styles['task-block__select']}
-					>
-						{replaceBlock.map(task => (
-							<option
-								className={styles['task-block__option']}
-								key={task.id}
-								value={task.id}
-							>
-								{task.name}
+					<>
+						<select
+							value={selectedTaskId || ''}
+							onChange={handleSelectChange}
+							className={styles['task-block__select']}
+						>
+							<option value='' disabled>
+								Select a task
 							</option>
-						))}
-					</select>
+							{replaceBlock.map(task => (
+								<option
+									className={styles['task-block__option']}
+									key={task.id}
+									value={task.id}
+								>
+									{task.name}
+								</option>
+							))}
+						</select>
+						<button
+							className={styles['task-block__move-button']}
+							onClick={handleReplaceTask}
+						>
+							Move Task
+						</button>
+					</>
 				)}
 			</div>
 			<div className={styles['task-block__footer']}>

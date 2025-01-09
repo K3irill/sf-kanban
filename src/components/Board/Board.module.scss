@@ -1,8 +1,16 @@
 .board {
 	padding: 20px;
+	flex: 1 0;
 	&__container {
 		display: flex;
 		justify-content: space-between;
 		gap: 24px;
+
+		@media (width <= 767px) {
+			display: grid;
+			grid-template-columns: 1;
+			align-items: center;
+			justify-content: center;
+		}
 	}
 }
