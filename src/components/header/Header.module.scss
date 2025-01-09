@@ -4,6 +4,7 @@
 	background: $dark-blue;
 	padding: 7px 16px;
 	&__container {
+		position: relative;
 		display: flex;
 		justify-content: space-between;
 		align-items: center;

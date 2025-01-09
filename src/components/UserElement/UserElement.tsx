@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import styles from './UserElement.module.scss'
 import cn from 'classnames'
+import UserModal from '../modals/UserModal/UserModal'
 //------------------------------
 const UserElement = () => {
 	const [isUserModalOpen, setUserModalOpen] = useState<boolean>(false)
@@ -22,6 +23,7 @@ const UserElement = () => {
 			>
 				<img src='/icons/arrow-down.svg' alt='open' />
 			</button>
+			{isUserModalOpen && <UserModal />}
 		</div>
 	)
 }

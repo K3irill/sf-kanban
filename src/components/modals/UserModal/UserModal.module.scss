@@ -1,0 +1,21 @@
+.user-modal {
+	display: flex;
+	flex-direction: column;
+	gap: 3px;
+	position: absolute;
+	width: 134px;
+	height: 60px;
+	background: white;
+	border-radius: 5px;
+	right: 0;
+	top: 135%;
+	padding: 8px 7px;
+	button {
+		text-align: start;
+		font-size: 14px;
+		transition: opacity 0.4s;
+		&:hover {
+			opacity: 0.5;
+		}
+	}
+}
