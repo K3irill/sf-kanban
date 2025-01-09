@@ -30,10 +30,12 @@ const App = () => {
 		<BrowserRouter>
 			<div className='app'>
 				<Header />
-				<Routes>
-					<Route path='/' element={<Board />} />
-					<Route path='tasks/:id' element={<TaskDetails />} />
-				</Routes>
+				<main>
+					<Routes>
+						<Route path='/' element={<Board />} />
+						<Route path='tasks/:id' element={<TaskDetails />} />
+					</Routes>
+				</main>
 				<Footer />
 			</div>
 		</BrowserRouter>

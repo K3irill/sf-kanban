@@ -13,7 +13,7 @@ const Footer = () => {
 		.flatMap(block => block.issues).length
 	console.log(totalTask)
 	return (
-		<div className={styles.footer}>
+		<footer className={styles.footer}>
 			<div className={cn(styles.footer__container, '__container')}>
 				<p>
 					Active tasks: <span>{totalTask - finishedTask}</span>
@@ -22,7 +22,7 @@ const Footer = () => {
 					Finished tasks: <span>{finishedTask}</span>
 				</p>
 			</div>
-		</div>
+		</footer>
 	)
 }
 
