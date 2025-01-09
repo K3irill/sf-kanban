@@ -3,21 +3,18 @@ import { dataMockType } from './types/data'
 export const dataMock: dataMockType = [
 	{
 		title: 'backlog',
+		replaceFrom: '',
 		issues: [
 			{
 				id: '1',
-				name: 'Sprint bugfix',
+				name: 'test-backlog',
 				description: 'Fix bugs',
-			},
-			{
-				id: '6',
-				name: 'web-site',
-				description: 'Fix web-site',
 			},
 		],
 	},
 	{
 		title: 'ready',
+		replaceFrom: 'backlog',
 		issues: [
 			{
 				id: '2',
@@ -28,6 +25,7 @@ export const dataMock: dataMockType = [
 	},
 	{
 		title: 'in-progress',
+		replaceFrom: 'ready',
 		issues: [
 			{
 				id: '3',
@@ -38,6 +36,7 @@ export const dataMock: dataMockType = [
 	},
 	{
 		title: 'finished',
+		replaceFrom: 'in-progress',
 		issues: [
 			{
 				id: '4',

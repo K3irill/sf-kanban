@@ -22,10 +22,38 @@
 		flex-direction: column;
 		flex: 1 0;
 	}
-	&__task-input {
+	&__task-input,
+	&__select {
 		background-color: white;
 		border-radius: 5px;
 		padding: 7px 8px;
 		cursor: text;
+		width: 100%;
 	}
+
+	&__select {
+		position: relative;
+		border: 1px dotted black;
+		&::after {
+			content: '>';
+			position: absolute;
+			width: 10px;
+			height: 10px;
+			right: 1px;
+			color: black;
+		}
+	}
+	&__footer-button {
+		transition: 0.4s;
+		padding: 7px 8px;
+		border-radius: 5px;
+		&:hover {
+			background: white;
+			color: $secondary-grey;
+		}
+	}
+}
+.button-active {
+	background: $blue;
+	color: white;
 }
