@@ -2,9 +2,12 @@
 
 .task-block {
 	width: 282px;
+	height: fit-content;
 	background-color: $primary-grey;
 	border-radius: 10px;
 	padding: 12px;
+	display: flex;
+	flex-direction: column;
 	&__header {
 		h3 {
 			&::first-letter {
@@ -17,5 +20,12 @@
 		display: flex;
 		gap: 15px;
 		flex-direction: column;
+		flex: 1 0;
+	}
+	&__task-input {
+		background-color: white;
+		border-radius: 5px;
+		padding: 7px 8px;
+		cursor: text;
 	}
 }
